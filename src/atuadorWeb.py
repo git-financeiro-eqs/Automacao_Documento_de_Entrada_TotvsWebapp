@@ -29,14 +29,13 @@ class Interagente:
         return driver_microsiga
  
  
-    def interagir_pagina_web(self, driver, elhtml, acao, texto="", limitar_espera=False, limitar_retorno=False):
+    def interagir_pagina_web(self, driver, elhtml, acao, limitar_retorno=False):
         """
-        Realiza ações em um elemento da página web, como clicar, escrever ou retornar o próprio elemento.
+        Realiza ações em um elemento da página web, como clicar, ou esperar o próprio elemento.
  
         Parâmetros:
             xpath (str): O XPath do elemento a ser encontrado.
-            acao (str): A ação a ser executada. Pode ser "Clicar", "Escrever", "Retornar elemento" ou "Esperar".
-            texto (str, opcional): Texto a ser inserido caso a ação seja "Escrever".
+            acao (str): A ação a ser executada. Pode ser "Clicar" ou "Esperar".
             limitar_espera (bool, opcional): Limita o tempo de espera para encontrar o elemento.
             limitar_retorno (bool, opcional): Limita o número de tentativas de encontrar o elemento.
  
@@ -51,39 +50,13 @@ class Interagente:
                 match acao:
                     case "Clicar":
                         elemento.click()
-                    case "Escrever":
-                        elemento.clear()
-                        sleep(0.8)
-                        elemento.send_keys(texto)
-                    case "Retornar elemento":
-                        return elemento
                     case "Esperar":
                         pass
                 break
             except Exception as e:
                 sleep(1)
-                if limitar_espera == True:
-                    aux+=1
                 if limitar_retorno == True:
-                    aux+=7.5
-                if aux == 15:
+                    aux+=1
+                if aux == 2:
                     break
  
- 
- 
-    def migrar_ao_frame(self, driver, acao, indice=0):
-        match acao:
-            case "ir":
-                driver.switch_to.frame(indice)
-            case "voltar":
-                driver.switch_to.default_content()
-            case "Aceitar alerta":
-                try:
-                    WebDriverWait(driver, 15).until(EC.alert_is_present())
-                    alert = driver.switch_to.alert
-                    alert.accept()
-                    return True
-                except:
-                    return False
- 
-   
