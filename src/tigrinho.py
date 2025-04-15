@@ -22,10 +22,9 @@ mensagem_xi = "Processo com um XML que não consigo ler."
  
 def tigrinho():
     """
-    Função principal. Nela está o fluxo da tarefa que esse programa realiza.
-    É uma função recursiva devido a necessidade de reinicialização do processo
-    que alguma circunstância indesejada pode provocar.
+    Função para inicialização da automação no Totvs Webapp.
     """
+    
     sem_boleto = []
     processo_bloqueado = []
     processo_errado = []
@@ -43,7 +42,11 @@ def tigrinho():
     
     
     def robozinho():
-    
+        """
+        Função principal. Nela está o fluxo da tarefa que esse programa realiza.
+        É uma função recursiva devido a necessidade de reinicialização do processo
+        que alguma circunstância indesejada pode provocar.
+        """
         controle = queue.Queue()
 
         chave_de_acesso = utils.verificar_chave_de_acesso(actions, processos_ja_vistos)
@@ -813,4 +816,4 @@ def tigrinho():
         except Exception as e:
             print(f"Erro na função tigrinho: {e}")
             return sem_boleto, processo_bloqueado, processo_errado, XML_ilegivel, nao_lancadas 
- 
+
