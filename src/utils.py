@@ -22,6 +22,9 @@ def checar_failsafe():
    
  
 def mover_seta(passos, direcao, actions):
+    """
+    Controle de teclado através da Lib Slenium. Em alguns momentos é mais confiável do que o Pyautogui.
+    """
     match direcao:
         case "Direita":
             direcao = Keys.ARROW_RIGHT
@@ -40,6 +43,10 @@ def mover_seta(passos, direcao, actions):
  
  
 def verificar_chave_de_acesso(actions, processos_ja_vistos):
+    """
+    Ação de de recolher a chave de acesso da NF no microsiga para que se possa fazer o seu lançamento.
+    Ainda conta com uma verificação para que não se repitam as chaves de acesso já testadas em lançamento.	
+    """
     mover_seta(13, "Direita", actions)
  
     aux = 0
