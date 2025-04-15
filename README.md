@@ -31,7 +31,7 @@ Antes de rodar o projeto, certifique-se de ter instalado:
 
 1. **Clone este repositório**  
    ```sh
-   git clone https://github.com/git-financeiro-eqs/Automacao_Documento_de_Entrada.git
+   https://github.com/git-financeiro-eqs/Automacao_Documento_de_Entrada_TotvsWebapp.git
    ```
    
 2. **Crie um ambiente virtual (opcional, mas recomendado)**  
