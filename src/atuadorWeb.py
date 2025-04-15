@@ -36,11 +36,8 @@ class Interagente:
         Parâmetros:
             xpath (str): O XPath do elemento a ser encontrado.
             acao (str): A ação a ser executada. Pode ser "Clicar" ou "Esperar".
-            limitar_espera (bool, opcional): Limita o tempo de espera para encontrar o elemento.
             limitar_retorno (bool, opcional): Limita o número de tentativas de encontrar o elemento.
- 
-        Retorna:
-            WebElement ou None: Retorna o elemento se a ação for "Retornar elemento", caso contrário retorna None.
+            
         """
  
         aux = 0
