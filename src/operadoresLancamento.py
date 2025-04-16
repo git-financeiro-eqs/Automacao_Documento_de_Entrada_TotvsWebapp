@@ -200,6 +200,7 @@ def verificar_valor_item(lista, indiceX, actions):
     return cancelar_lancamento, razoes
  
  
+
 def copiar_natureza():
     """
     Copia a natureza do item no SIGA e a corrige, se necessário.
@@ -223,6 +224,7 @@ def copiar_natureza():
     return natureza
  
  
+
 def selecionar_caso(natureza):
     """
     Seleciona o caso de lançamento com base na natureza do item.
@@ -247,7 +249,8 @@ def selecionar_caso(natureza):
     return codigo.get(natureza, 7)
  
  
-def definir_TES(actions, codigo, ctrl_imposto):
+
+def definir_TES(actions, codigo, ctrl_imposto, empresa):
     """
     Define o Tipo de Entrada/Saída (TES) com base no código extraído da natureza
     e no indicador da modalidade de impostos presente na variável ctrl_imposto.
@@ -262,96 +265,180 @@ def definir_TES(actions, codigo, ctrl_imposto):
     sleep(0.5)
     tes = ""
  
-    match codigo:
-        case 0:
-            if ctrl_imposto != "Nenhum imposto":
-                tes = "421"
-            else:
-                tes = "420"
-       
-        case 1:
-            if ctrl_imposto == "Nenhum imposto":
-                tes = "402"
-            elif ctrl_imposto in ["Apenas ICMS e ICMSST", "Apenas o ICMS", "Apenas o ICMSST"]:
-                tes = "405"
-            elif ctrl_imposto == "Todos os impostos":
-                tes = "407"
-            else:
-                tes = "403"
-       
-        case 2:
-            if ctrl_imposto not in ["Todos os impostos", "Apenas ICMS e IPI", "Apenas ICMSST e IPI", "Apenas o IPI"]:
-                tes = "408"
-            else:
-                tes = "411"
-       
-        case 3:
-            tes = "423"
-       
-        case 4:
-            if ctrl_imposto not in ["Todos os impostos", "Apenas ICMS e IPI", "Apenas ICMSST e IPI", "Apenas o IPI"]:
-                tes = "102"
-            else:
-                tes = "432"
-       
-        case 5:
-            hotkey("ctrl", "c", interval=0.5)
-            tes_padrao = paste()
-            if tes_padrao == "406":
-                tes = "406"
-            else:
+    if empresa == "Bratec":
+        match codigo:
+            case 0:
+                if ctrl_imposto != "Nenhum imposto":
+                    tes = "438"
+                else:
+                    tes = "420"
+            
+            case 1:
                 if ctrl_imposto == "Nenhum imposto":
                     tes = "402"
-                elif ctrl_imposto == "Todos os impostos":
-                    tes = "407"
                 elif ctrl_imposto in ["Apenas ICMS e ICMSST", "Apenas o ICMS", "Apenas o ICMSST"]:
-                    tes = "405"
+                    tes = "433"
+                elif ctrl_imposto == "Todos os impostos":
+                    tes = "435"
                 else:
-                    tes = "403"
-       
-        case 6:
-            hotkey("ctrl", "c", interval=0.5)
-            tes_padrao = paste()
-            if tes_padrao == "406":
-                tes = "406"
-            else:
-                press(["left"]*2, interval=0.3)
-                sleep(0.7)
+                    tes = "434"
+            
+            case 2:
+                if ctrl_imposto not in ["Todos os impostos", "Apenas ICMS e IPI", "Apenas ICMSST e IPI", "Apenas o IPI"]:
+                    tes = "436"
+                else:
+                    tes = "437"
+            
+            case 3:
+                tes = "423"
+            
+            case 4:
+                if ctrl_imposto not in ["Todos os impostos", "Apenas ICMS e IPI", "Apenas ICMSST e IPI", "Apenas o IPI"]:
+                    tes = "102"
+                else:
+                    tes = "432"
+            
+            case 5:
                 hotkey("ctrl", "c", interval=0.5)
-                item_especifico = paste()
-                press(["right"]*2, interval=0.3)
-                sleep(0.5)
-                if item_especifico in ["0207000001", "1312000156", "999920091200", "999949011000", "1303102887", "1302578",
-                                       "1303100449", "1303100601", "1303100602", "1303100603", "1312000122", "1312000124",
-                                       "1312000125", "1312000126", "1312000144", "1308002", "1312024", "1303100550", "1303100600", 
-                                       "1303101290", "1303101291", "1303103835", "1303103836", "1303103837", "1312000141"]:
-                    
-                    if ctrl_imposto != "Nenhum imposto":
-                        tes = "421"
-                    else:
-                        tes = "420"
+                tes_padrao = paste()
+                if tes_padrao == "406" or tes_padrao == "439":
+                    tes = "439"
                 else:
                     if ctrl_imposto == "Nenhum imposto":
                         tes = "402"
+                    elif ctrl_imposto == "Todos os impostos":
+                        tes = "435"
                     elif ctrl_imposto in ["Apenas ICMS e ICMSST", "Apenas o ICMS", "Apenas o ICMSST"]:
-                        tes = "405"
+                        tes = "433"
+                    else:
+                        tes = "434"
+            
+            case 6:
+                hotkey("ctrl", "c", interval=0.5)
+                tes_padrao = paste()
+                if tes_padrao == "406" or tes_padrao == "439":
+                    tes = "439"
+                else:
+                    press(["left"]*2)
+                    sleep(0.7)
+                    hotkey("ctrl", "c", interval=0.5)
+                    item_especifico = paste()
+                    press(["right"]*2)
+                    if item_especifico in ["0207000001", "1312000156", "999920091200", "999949011000", "1303102887", "1302578", "1303100449", "1303100601", "1303100602", "1303100603", "1312000122", "1312000124", "1312000125", "1312000126", "1312000144", "1308002", "1312024", "1303100550", "1303100600", "1303101290", "1303101291", "1303103835", "1303103836", "1303103837", "1312000141"]:
+                        if ctrl_imposto != "Nenhum imposto":
+                            tes = "438"
+                        else:
+                            tes = "420"
+                    else:
+                        if ctrl_imposto == "Nenhum imposto":
+                            tes = "402"
+                        elif ctrl_imposto in ["Apenas ICMS e ICMSST", "Apenas o ICMS", "Apenas o ICMSST"]:
+                            tes = "433"
+                        elif ctrl_imposto == "Todos os impostos":
+                            tes = "435"
+                        else:
+                            tes = "434"
+                    
+            case 7:
+                cancelar_lancamento = True
+                utils.cancelar_lancamento()
+                utils.voltar_descer()
+                sleep(0.3)
+                tes = cancelar_lancamento
+
+    else:
+
+        match codigo:
+            case 0:
+                if ctrl_imposto != "Nenhum imposto":
+                    tes = "421"
+                else:
+                    tes = "420"
+        
+            case 1:
+                if ctrl_imposto == "Nenhum imposto":
+                    tes = "402"
+                elif ctrl_imposto in ["Apenas ICMS e ICMSST", "Apenas o ICMS", "Apenas o ICMSST"]:
+                    tes = "405"
+                elif ctrl_imposto == "Todos os impostos":
+                    tes = "407"
+                else:
+                    tes = "403"
+        
+            case 2:
+                if ctrl_imposto not in ["Todos os impostos", "Apenas ICMS e IPI", "Apenas ICMSST e IPI", "Apenas o IPI"]:
+                    tes = "408"
+                else:
+                    tes = "411"
+        
+            case 3:
+                tes = "423"
+        
+            case 4:
+                if ctrl_imposto not in ["Todos os impostos", "Apenas ICMS e IPI", "Apenas ICMSST e IPI", "Apenas o IPI"]:
+                    tes = "102"
+                else:
+                    tes = "432"
+        
+            case 5:
+                hotkey("ctrl", "c", interval=0.5)
+                tes_padrao = paste()
+                if tes_padrao == "406":
+                    tes = "406"
+                else:
+                    if ctrl_imposto == "Nenhum imposto":
+                        tes = "402"
                     elif ctrl_imposto == "Todos os impostos":
                         tes = "407"
+                    elif ctrl_imposto in ["Apenas ICMS e ICMSST", "Apenas o ICMS", "Apenas o ICMSST"]:
+                        tes = "405"
                     else:
                         tes = "403"
-               
-        case 7:
-            cancelar_lancamento = True
-            utils.cancelar_lancamento()
-            sleep(2)
-            utils.voltar_descer(actions)
-            sleep(0.3)
-            tes = cancelar_lancamento
+        
+            case 6:
+                hotkey("ctrl", "c", interval=0.5)
+                tes_padrao = paste()
+                if tes_padrao == "406":
+                    tes = "406"
+                else:
+                    press(["left"]*2, interval=0.3)
+                    sleep(0.7)
+                    hotkey("ctrl", "c", interval=0.5)
+                    item_especifico = paste()
+                    press(["right"]*2, interval=0.3)
+                    sleep(0.5)
+                    if item_especifico in ["0207000001", "1312000156", "999920091200", "999949011000", "1303102887", "1302578",
+                                        "1303100449", "1303100601", "1303100602", "1303100603", "1312000122", "1312000124",
+                                        "1312000125", "1312000126", "1312000144", "1308002", "1312024", "1303100550", "1303100600", 
+                                        "1303101290", "1303101291", "1303103835", "1303103836", "1303103837", "1312000141"]:
+                        
+                        if ctrl_imposto != "Nenhum imposto":
+                            tes = "421"
+                        else:
+                            tes = "420"
+                    else:
+                        if ctrl_imposto == "Nenhum imposto":
+                            tes = "402"
+                        elif ctrl_imposto in ["Apenas ICMS e ICMSST", "Apenas o ICMS", "Apenas o ICMSST"]:
+                            tes = "405"
+                        elif ctrl_imposto == "Todos os impostos":
+                            tes = "407"
+                        else:
+                            tes = "403"
+                
+            case 7:
+                cancelar_lancamento = True
+                utils.cancelar_lancamento()
+                sleep(2)
+                utils.voltar_descer(actions)
+                sleep(0.3)
+                tes = cancelar_lancamento
  
     utils.checar_failsafe()
     return tes
    
  
+
 def zerar_imposto(passos_ida=7, passos_volta=8):
     press(["right"]*passos_ida, interval=0.1)
     sleep(0.8)
@@ -361,6 +448,7 @@ def zerar_imposto(passos_ida=7, passos_volta=8):
     press(["left"]*passos_volta, interval=0.1)
     utils.checar_failsafe()
  
+
  
 def escrever_TES(tes):
     sleep(0.5)
@@ -370,6 +458,7 @@ def escrever_TES(tes):
     press(["right"]*4, interval=0.2)
     utils.checar_failsafe()
  
+
  
 def inserir_desconto(desc_no_item):
     press(["right"]*3, interval=0.1)
@@ -380,6 +469,7 @@ def inserir_desconto(desc_no_item):
     sleep(0.3)
     utils.checar_failsafe()
  
+
  
 def inserir_frete(frete_no_item):
     press(["right"]*105)
@@ -390,6 +480,7 @@ def inserir_frete(frete_no_item):
     sleep(0.3)
     utils.checar_failsafe()
  
+
  
 def inserir_seguro(seg_no_item):
     sleep(0.3)
@@ -400,6 +491,7 @@ def inserir_seguro(seg_no_item):
     utils.checar_failsafe()
  
  
+
 def inserir_despesa(desp_no_item):
     sleep(0.3)
     press("enter", interval=1)
@@ -410,6 +502,7 @@ def inserir_despesa(desp_no_item):
     sleep(0.6)
     utils.checar_failsafe()
  
+
  
 def inserir_ICMS(icms_no_item, bc_icms, aliq_icms):
     press(["right"]*7, interval=0.1)
@@ -432,6 +525,7 @@ def inserir_ICMS(icms_no_item, bc_icms, aliq_icms):
     sleep(0.3)
     utils.checar_failsafe()
  
+
  
 def inserir_ICMSST(icmsST_no_item, base_icms_ST, aliq_icms_ST, passosST=9):
     press(["right"]*passosST)
@@ -453,6 +547,7 @@ def inserir_ICMSST(icmsST_no_item, base_icms_ST, aliq_icms_ST, passosST=9):
     utils.checar_failsafe()
  
  
+
 def inserir_IPI(ipi_no_item, base_ipi, aliq_ipi, passosIPI=12):
     press(["right"]*passosIPI)
     sleep(0.3)
@@ -476,6 +571,7 @@ def inserir_IPI(ipi_no_item, base_ipi, aliq_ipi, passosIPI=12):
     sleep(0.3)
     utils.checar_failsafe()
  
+
  
 def corrigir_passos_horizontal(cont, item):
     if len(item) > 1:
@@ -484,4 +580,5 @@ def corrigir_passos_horizontal(cont, item):
         if cont == len(item):
             press(["left"]*4)
              
-  
+
+
