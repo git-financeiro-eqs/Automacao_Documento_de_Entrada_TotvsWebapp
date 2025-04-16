@@ -1,8 +1,6 @@
 from selenium import webdriver  
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from time import sleep
  
@@ -29,7 +27,7 @@ class Interagente:
         return driver_microsiga
  
  
-    def interagir_pagina_web(self, driver, elhtml, acao, limitar_retorno=False):
+    def interagir_pagina_web(self, driver, elhtml, acao, limitar_retorno=False, limitar_espera=False):
         """
         Realiza ações em um elemento da página web, como clicar, ou esperar o próprio elemento.
  
@@ -53,7 +51,9 @@ class Interagente:
             except Exception as e:
                 sleep(1)
                 if limitar_retorno == True:
+                    aux+=7
+                if limitar_espera == True:
                     aux+=1
-                if aux == 2:
+                if aux == 21:
                     break
- 
+
