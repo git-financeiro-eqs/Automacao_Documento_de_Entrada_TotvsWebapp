@@ -61,7 +61,7 @@ Antes de rodar o projeto, certifique-se de ter instalado:
    ```sh
    python main.py
    ```
-4. Acione o botão **Play** e acompanhe o processo na interface do Microsiga. Efetue o login e abra a rotina Processo Pagamento.
+4. Acione o botão **Play** e acompanhe o processo na interface do Microsiga. Efetue o login e abra a rotina Processo Pagamento. Não se esqueça de selecionar se os lançamentos seram da EQS ou da Bratec no microsiga.
 <br/>
 
 ## **Observações**  
