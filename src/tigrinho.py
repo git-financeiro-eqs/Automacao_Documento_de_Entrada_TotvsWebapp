@@ -9,7 +9,6 @@ import operadoresLancamento
 import pyautogui as ptg
 import xmltodict  
 import pyscreeze
-import queue
  
  
 
@@ -20,16 +19,11 @@ mensagem_pe = "Processo com algum erro impeditivo de lançamento."
 mensagem_xi = "Processo com um XML que não consigo ler."
  
  
-def tigrinho():
+def tigrinho(empresa):
     """
     Função para inicialização da automação no Totvs Webapp.
     """
     
-    sem_boleto = []
-    processo_bloqueado = []
-    processo_errado = []
-    XML_ilegivel = []
-    nao_lancadas = []
     processos_ja_vistos = []
 
     interagente = atuadorWeb.Interagente()
@@ -47,7 +41,6 @@ def tigrinho():
         É uma função recursiva devido a necessidade de reinicialização do processo
         que alguma circunstância indesejada pode provocar.
         """
-        controle = queue.Queue()
 
         chave_de_acesso = utils.verificar_chave_de_acesso(actions, processos_ja_vistos)
 
@@ -118,14 +111,14 @@ def tigrinho():
                         break
                 except xmltodict.expat.ExpatError as e:
                     if aux == True:
-                        utils.tratar_xml_ilegivel(XML_ilegivel, nao_lancadas, numero_da_nf, mensagem_xi, aux)
+                        utils.tratar_xml_ilegivel(numero_da_nf, mensagem_xi, empresa, aux)
                     
                         # Circunstância indesejada:
                         # XML ilegível
                     
                         return robozinho()
                     else:
-                        utils.tratar_xml_ilegivel(XML_ilegivel, nao_lancadas, numero_da_nf, mensagem_xi)
+                        utils.tratar_xml_ilegivel(numero_da_nf, mensagem_xi, empresa)
                         return robozinho()
         
         # <DETALHES DO TRECHO/>
@@ -142,7 +135,7 @@ def tigrinho():
 
         # O XML da NF é transformado em um objeto, um dicionario Python, e como todo objeto, os valores são acessados através da chave.
     
-        processador = extratorXML.ProcessadorXML(doc)
+        processador = extratorXML.ProcessadorXML(doc, empresa)
         valor_total_da_nf, filial_xml = processador.processar_totais_nota_fiscal()
 
         const_item = 0
@@ -240,7 +233,7 @@ def tigrinho():
                             interagente.interagir_pagina_web(driver_microsiga, "#COMP7512", acao="Clicar", limitar_retorno=True)
                             clicar_cancelar = utils.encontrar_centro_imagem(r'src\Imagens\BotaoCancelarDadosNF.png')  
                     utils.cancelar1(actions)
-                    utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                    utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                 
                     # Circunstância indesejada:
                     # Filial do pedido não corresponde a filial de XML
@@ -313,7 +306,7 @@ def tigrinho():
                 ptg.press("enter", interval=2)    
                 utils.cancelar1(actions)
                 utils.checar_failsafe()
-                utils.acrescer_lista(processo_bloqueado, nao_lancadas, numero_da_nf, mensagem_pb)
+                utils.enviar_email(numero_da_nf, mensagem_pb, empresa)
                 return robozinho()
         
             tela_de_lancamento = utils.encontrar_imagem(r'src\Imagens\ReferenciaAbriuOProcesso.png')
@@ -325,14 +318,18 @@ def tigrinho():
                 sleep(1)
                 ptg.press("enter")
                 utils.cancelar3(actions)
-                utils.acrescer_lista(processo_bloqueado, nao_lancadas, numero_da_nf, mensagem_pb)
+                utils.enviar_email(numero_da_nf, mensagem_pb, empresa)
                 return robozinho()
             if cont == 15:
                 ptg.press("enter")
                 cont = 0
 
+
         sleep(0.5)
-        utils.mover_seta(10, "tab", actions)
+        if empresa == "EQS":
+            utils.mover_seta(10, "tab", actions)
+        else:
+            utils.mover_seta(9, "tab", actions)
         sleep(1)
         utils.mover_seta(8, "Direita", actions)
 
@@ -353,7 +350,7 @@ def tigrinho():
 
             verificador, item_fracionado = operadoresLancamento.verificar_valor_item(itens, i, actions)
             if verificador == True:
-                utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                 utils.checar_failsafe()
             
                 # Circunstância indesejada:
@@ -371,9 +368,9 @@ def tigrinho():
                         desc_no_item, frete_no_item, seg_no_item, desp_no_item, icms_no_item, icmsST_no_item, ipi_no_item = lista
                         natureza = operadoresLancamento.copiar_natureza()
                         codigo = operadoresLancamento.selecionar_caso(natureza)
-                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto)
+                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto, empresa)
                         if tes == True:
-                            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                         
                             # Circunstância indesejada:
                             # Natureza não mapeada pela automação
@@ -399,9 +396,9 @@ def tigrinho():
                         desc_no_item, frete_no_item, seg_no_item, desp_no_item, icms_no_item, bc_icms, aliq_icms, icmsST_no_item, ipi_no_item = lista
                         natureza = operadoresLancamento.copiar_natureza()
                         codigo = operadoresLancamento.selecionar_caso(natureza)
-                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto)
+                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto, empresa)
                         if tes == True:
-                            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                             return robozinho()
                         operadoresLancamento.escrever_TES(tes)
                         operadoresLancamento.inserir_desconto(desc_no_item)
@@ -422,9 +419,9 @@ def tigrinho():
                         desc_no_item, frete_no_item, seg_no_item, desp_no_item, icms_no_item, icmsST_no_item, base_icms_ST, aliq_icms_ST, ipi_no_item = lista
                         natureza = operadoresLancamento.copiar_natureza()
                         codigo = operadoresLancamento.selecionar_caso(natureza)
-                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto)
+                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto, empresa)
                         if tes == True:
-                            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                             return robozinho()
                         operadoresLancamento.escrever_TES(tes)
                         operadoresLancamento.inserir_desconto(desc_no_item)
@@ -447,9 +444,9 @@ def tigrinho():
                         desc_no_item, frete_no_item, seg_no_item, desp_no_item, icms_no_item, icmsST_no_item, ipi_no_item, base_ipi, aliq_ipi = lista
                         natureza = operadoresLancamento.copiar_natureza()
                         codigo = operadoresLancamento.selecionar_caso(natureza)
-                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto)
+                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto, empresa)
                         if tes == True:
-                            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                             return robozinho()
                         operadoresLancamento.escrever_TES(tes)
                         operadoresLancamento.inserir_desconto(desc_no_item)
@@ -469,9 +466,9 @@ def tigrinho():
                         desc_no_item, frete_no_item, seg_no_item, desp_no_item, icms_no_item, icmsST_no_item, base_icms_ST, aliq_icms_ST, ipi_no_item, base_ipi, aliq_ipi = lista
                         natureza = operadoresLancamento.copiar_natureza()
                         codigo = operadoresLancamento.selecionar_caso(natureza)
-                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto)
+                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto, empresa)
                         if tes == True:
-                            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                             return robozinho()
                         operadoresLancamento.escrever_TES(tes)
                         operadoresLancamento.inserir_desconto(desc_no_item)
@@ -492,9 +489,9 @@ def tigrinho():
                         desc_no_item, frete_no_item, seg_no_item, desp_no_item, icms_no_item, base_icms, aliq_icms, icmsST_no_item, ipi_no_item, base_ipi, aliq_ipi = lista
                         natureza = operadoresLancamento.copiar_natureza()
                         codigo = operadoresLancamento.selecionar_caso(natureza)
-                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto)
+                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto, empresa)
                         if tes == True:
-                            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                             return robozinho()
                         operadoresLancamento.escrever_TES(tes)
                         operadoresLancamento.inserir_desconto(desc_no_item)
@@ -513,9 +510,9 @@ def tigrinho():
                         desc_no_item, frete_no_item, seg_no_item, desp_no_item, icms_no_item, base_icms, aliq_icms, icmsST_no_item, base_icms_ST, aliq_icms_ST, ipi_no_item = lista
                         natureza = operadoresLancamento.copiar_natureza()
                         codigo = operadoresLancamento.selecionar_caso(natureza)
-                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto)
+                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto, empresa)
                         if tes == True:
-                            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                             return robozinho()
                         operadoresLancamento.escrever_TES(tes)
                         operadoresLancamento.inserir_desconto(desc_no_item)
@@ -534,9 +531,9 @@ def tigrinho():
                         desc_no_item, frete_no_item, seg_no_item, desp_no_item, icms_no_item, base_icms, aliq_icms, icmsST_no_item, base_icms_ST, aliq_icms_ST, ipi_no_item, base_ipi, aliq_ipi = lista
                         natureza = operadoresLancamento.copiar_natureza()
                         codigo = operadoresLancamento.selecionar_caso(natureza)
-                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto)
+                        tes = operadoresLancamento.definir_TES(actions, codigo, ctrl_imposto, empresa)
                         if tes == True:
-                            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                             return robozinho()
                         operadoresLancamento.escrever_TES(tes)
                         operadoresLancamento.inserir_desconto(desc_no_item)
@@ -693,7 +690,7 @@ def tigrinho():
             if type(erro_parcela) == pyscreeze.Box:
                 ptg.press("enter")
                 utils.cancelar2(actions)
-                utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+                utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
                 utils.checar_failsafe()
             
                 # Circunstância indesejada:
@@ -776,7 +773,7 @@ def tigrinho():
             x, y = mudar_a_selecao
             ptg.doubleClick(x, y)
             sleep(0.3)
-            utils.acrescer_lista(processo_errado, nao_lancadas, numero_da_nf, mensagem_pe)
+            utils.enviar_email(numero_da_nf, mensagem_pe, empresa)
         
             # Circunstância indesejada:
             # Erro de quantidade no estoque da empresa
@@ -812,8 +809,7 @@ def tigrinho():
     while True:
         try:
             robozinho()
-            print(sem_boleto, processo_bloqueado, processo_errado, XML_ilegivel, nao_lancadas)
         except Exception as e:
             print(f"Erro na função tigrinho: {e}")
-            return sem_boleto, processo_bloqueado, processo_errado, XML_ilegivel, nao_lancadas 
-
+            return
+ 
