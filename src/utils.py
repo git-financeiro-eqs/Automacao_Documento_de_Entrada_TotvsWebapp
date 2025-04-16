@@ -230,7 +230,22 @@ def clicar_natureza_duplicata():
     checar_failsafe()
  
  
-def enviar_email(corpo):
+def enviar_email(numero_da_nf, variavel, empresa):
+    corpo = f"""
+        Olá, colaborador!
+ 
+ 
+        Não consegui lançar a NF abaixo, pode me ajudar?
+ 
+        {numero_da_nf}, compra da {empresa}.
+       
+        Situação: {variavel}
+ 
+ 
+        Atenciosamente,
+        Bot.Contabil
+        """
+    
     mensagem = EmailMessage()
     mensagem.set_content(corpo)
     mensagem['Subject'] = "DANFE PARA LANÇAR"
@@ -239,46 +254,20 @@ def enviar_email(corpo):
  
     try:
         with smtplib.SMTP_SSL('mail.eqseng.com.br', 465) as servidor:
-            servidor.login("bot.contabil@eqseng.com.br", "********")
+            servidor.login("bot.contabil@eqseng.com.br", "EQSeng852@")
             servidor.send_message(mensagem)
     except Exception as e:
         pass
  
  
-def acrescer_lista(lista, lista2, numero_da_nf, variavel):
-    try:
-        verificador = lista.index(numero_da_nf)
-    except:
-        lista.append(numero_da_nf)
-    try:
-        verificador = lista2.index(numero_da_nf)
-    except:
-        lista2.append(numero_da_nf)
-        corpo = f"""
-        Olá, colaborador!
- 
- 
-        Não consegui lançar a NF abaixo, pode me ajudar?
- 
-        {numero_da_nf}
-       
-        Situação: {variavel}
- 
- 
-        Atenciosamente,
-        Bot.Contabil
-        """
-        enviar_email(corpo)
- 
- 
-def tratar_xml_ilegivel(XML_ilegivel, nao_lancadas, numero_da_nf, mensagem_xi, aux=False):
+def tratar_xml_ilegivel(numero_da_nf, mensagem_xi, empresa, aux=False):
     if aux == True:
         ptg.press(["tab"]*3, interval=0.1)
     else:
         ptg.hotkey(["shift","tab"]*3, interval=0.1)
     ptg.press("down")
     sleep(0.5)
-    acrescer_lista(XML_ilegivel, nao_lancadas, numero_da_nf, mensagem_xi)
+    enviar_email(numero_da_nf, mensagem_xi, empresa)
     checar_failsafe()
  
  
