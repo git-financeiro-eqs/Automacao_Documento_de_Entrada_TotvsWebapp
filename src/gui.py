@@ -10,13 +10,13 @@ import threading
  
 def abrir_gui():
     
-    def ativar_robozinho():
+    def ativar_robozinho(empresa):
         """
         Ativa a automação.
         """
         sleep(1)
         window.iconify()
-        threading.Thread(target=tigrinho, daemon=True).start()
+        threading.Thread(target=tigrinho, args=(empresa, ), daemon=True).start()
         checar_failsafe()
         
  
@@ -42,20 +42,20 @@ def abrir_gui():
  
     window.deiconify()
  
-    window.iconbitmap(relative_to_assets("robozinho.ico"))
-    window.geometry("750x400+390+110")
+    window.geometry("700x520+390+75")
     window.title("Automação Entrada de DANFE")
+    window.iconbitmap(relative_to_assets("robozinho.ico"))
     window.configure(bg = "#FFFFFF")
 
 
     canvas = Canvas(
         window,
         bg = "#FFFFFF",
-        height = 478,
-        width = 788,
+        height = 520,
+        width = 700,
         bd = 0,
         highlightthickness = 0,
-        relief = "solid"
+        relief = "ridge"
     )
 
     canvas.place(x = 0, y = 0)
@@ -66,32 +66,65 @@ def abrir_gui():
         borderwidth=3,
         highlightthickness=0,
         bd=3,
-        command=lambda: ativar_robozinho(),
+        command=lambda: ativar_robozinho("Bratec"),
         relief="solid",
         cursor="hand2"
     )
     button_1.place(
-        x=79.0,
-        y=235.0,
-        width=590,
-        height=60
+        x=112.0,
+        y=420.0,
+        width=471.0,
+        height=51.0
     )
 
-    image_image_7 = PhotoImage(
-        file=relative_to_assets("LogoEqs.png"))
-    image_7 = canvas.create_image(
-        55.0,
-        35.0,
-        image=image_image_7
+    button_image_2 = PhotoImage(
+        file=relative_to_assets("BotaoPlay.png"))
+    button_2 = Button(
+        image=button_image_2,
+        borderwidth=3,
+        highlightthickness=0,
+        bd=3,
+        command=lambda: ativar_robozinho("EQS"),
+        relief="solid",
+        cursor="hand2"
+    )
+    button_2.place(
+        x=112.0,
+        y=294.0,
+        width=471.0,
+        height=51.0
     )
 
+    image_image_1 = PhotoImage(
+        file=relative_to_assets("image_1.png"))
+    image_1 = canvas.create_image(
+        371.0,
+        259.0,
+        image=image_image_1
+    )
 
-    image_image_8 = PhotoImage(
-        file=relative_to_assets("EyeOfTheTiger.png"))
-    image_8 = canvas.create_image(
-        372.0,
-        120.0,
-        image=image_image_8
+    image_image_2 = PhotoImage(
+        file=relative_to_assets("image_2.png"))
+    image_2 = canvas.create_image(
+        317.0,
+        261.0,
+        image=image_image_2
+    )
+
+    image_image_3 = PhotoImage(
+        file=relative_to_assets("image_3.png"))
+    image_3 = canvas.create_image(
+        350.0,
+        123.0,
+        image=image_image_3
+    )
+
+    image_image_4 = PhotoImage(
+        file=relative_to_assets("image_4.png"))
+    image_4 = canvas.create_image(
+        347.0,
+        391.0,
+        image=image_image_4
     )
     window.resizable(False, False)
     window.mainloop()
