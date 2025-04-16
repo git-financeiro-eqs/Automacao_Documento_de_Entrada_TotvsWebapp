@@ -66,6 +66,6 @@ Antes de rodar o projeto, certifique-se de ter instalado:
 
 ## **Observações**  
    
-2. A automção envia o numero da NF impedida de lançamento por E-mail para o grupo Entrada de Documentos.
+1. A automção envia o numero da NF impedida de lançamento por E-mail para o grupo Entrada de Documentos.
 
-3. *Para um melhor entendimento do funcionamento do Bot, deixei um vídeo na pasta *docs* dele em ação.
+2. *Para um melhor entendimento do funcionamento do Bot, deixei um vídeo na pasta *docs* dele em ação.
