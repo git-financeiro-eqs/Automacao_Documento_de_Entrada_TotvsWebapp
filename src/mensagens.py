@@ -9,7 +9,8 @@ class Mensagens:
         self.texto = """A seguir, você verá a nossa interface de controle da automação. Nela temos:
  
 Botão "Play": Esse botão é o que ativa o Bot, ele só precisa ser acionado 1x, e quando acionado, efetue o login no Microsiga, abra a rotina Processo Pagamento e então tire as mãos do mouse e do teclado e deixe a mágica acontecer.
-
+Você perceberá que são dois botões "Play", um da EQS e o outro da Bratec. Agora é possível lançar tanto as notas da EQS quanto as da Bratec, basta escolher o botão correto para cada empresa.
+Não se esqueça de selecionar a empresa correta no Microsiga também, a Bratec é a 11, e a EQS é a 02.
 """
 
         self.info2 = "Fiscal IO"
