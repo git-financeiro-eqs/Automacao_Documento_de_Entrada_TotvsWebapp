@@ -342,7 +342,8 @@ def definir_TES(actions, codigo, ctrl_imposto, empresa):
             case 7:
                 cancelar_lancamento = True
                 utils.cancelar_lancamento()
-                utils.voltar_descer()
+                sleep(2)
+                utils.voltar_descer(actions)
                 sleep(0.3)
                 tes = cancelar_lancamento
 
