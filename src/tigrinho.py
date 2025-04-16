@@ -781,9 +781,9 @@ def tigrinho(empresa):
         
             return robozinho()
 
-        interagente.interagir_pagina_web(driver_microsiga, "#COMP9007", acao="Esperar")
+        interagente.interagir_pagina_web(driver_microsiga, "#COMP9007", acao="Esperar", limitar_espera=True)
         ptg.scroll(-300)
-        interagente.interagir_pagina_web(driver_microsiga, "#COMP9023", acao="Clicar")
+        interagente.interagir_pagina_web(driver_microsiga, "#COMP9023", acao="Clicar", limitar_espera=True)
     
 
         ultimo_enter = utils.encontrar_centro_imagem(r'src\Imagens\ReferenciaFinalizarLancamento.png')
