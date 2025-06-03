@@ -131,7 +131,6 @@ O sistema é dividido em módulos que desempenham funções específicas, desde 
             para reinicia-lo.</li>
         </ul>
       </td>
-      <td>Utilizado pelos módulos <strong>operadoresLancamento</strong> e <strong>acaoComum</strong> durante o lançamento.</td>
     </tr>
     <tr>
       <td><strong>atuadorWeb</strong></td>
@@ -141,7 +140,6 @@ O sistema é dividido em módulos que desempenham funções específicas, desde 
           <li>Função de abertura do microsiga WebApp, além de ações como clicar ou esperar um elemento HTML passado.</li>
         </ul>
       </td>
-      <td>Utilizado pelas Mariquinhas para abertura do Microsiga WebApp.</td>
     </tr>
   </tbody>
 </table>
