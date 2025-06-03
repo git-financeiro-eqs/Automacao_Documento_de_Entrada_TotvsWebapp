@@ -1,3 +1,7 @@
+# Automacao Agillitas WebApp
+Transposição da automação de lançamento das DANFES no sistema ERP, vulgo Tigrinho. Antes a automação era programada para uma aplicação Desktop, agora que o microsiga migrou para o Web, essa é a nova versão da automação compatível com o novo microsiga.
+  
+  
 # **Automação de Lançamento de DANFEs no ERP TOTVS Microsiga**  
 <br/>
 
@@ -14,17 +18,11 @@ o que está sendo imprimido na tela para, com base em sua programação, realiza
 <br/>
 
 ## 🖥 **Tecnologias Utilizadas**  
-- **Python** – Linguagem principal da automação.  
-- **Selenium** – Abertura do Microsiga.  
+- **Python** 🐍
+- **Selenium** – Abertura do Microsiga WebApp.  
 - **Pyautogui** – Interação com a interface gráfica do ERP.  
 - **Pyperclip** – Manipulação da área de transferência para inserção e validação dos dados.  
 - **xmltodict** – Extração de dados estruturados dos arquivos XML.  
-<br/>
-
-## ⚙️ **Pré-requisitos**  
-Antes de rodar o projeto, certifique-se de ter instalado:  
-- **Python 3.x**    
-- **ERP TOTVS Microsiga** instalado e acessível  
 <br/>
 
 ## 📥 **Instalação**  
@@ -53,7 +51,7 @@ Antes de rodar o projeto, certifique-se de ter instalado:
    2.1. Configure o repositório de XMLs:  
         - Crie uma pasta para armazenar os XMLs das notas fiscais.  
         - Atualize o caminho da pasta no código, se necessário.  
-        - Se acaso não tiver tempo para inserir os XMLs na pasta, a rotina Processo Pagamento permite que você extraia
+        - Se acaso não tiver tempo para inserir os XMLs na pasta, a rotina Processo Pagamento permite que a automação extraia
           esses arquivos diretamente nela. O bot está programado para, em caso de não encontrar o XML na pasta repositório,
           buscar o arquivo pela função de extração do próprio SIGA.
    
@@ -61,7 +59,7 @@ Antes de rodar o projeto, certifique-se de ter instalado:
    ```sh
    python main.py
    ```
-4. Acione o botão **Play** e acompanhe o processo na interface do Microsiga. Efetue o login e abra a rotina Processo Pagamento. Não se esqueça de selecionar se os lançamentos seram da EQS ou da Bratec no microsiga.
+4. Acione o botão **Play** da empresa ao qual deseja que a automação lance as NFs, Bratec ou EQS, e acompanhe o processo na interface do Microsiga WebApp. Efetue o login e abra a rotina Processo Pagamento. Não se esqueça de selecionar se os lançamentos seram da EQS ou da Bratec no Microsiga.
 <br/>
 
 ## **Observações**  
