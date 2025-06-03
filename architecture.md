@@ -119,6 +119,30 @@ O sistema é dividido em módulos que desempenham funções específicas, desde 
         </ul>
       </td>
     </tr>
+    <tr>
+      <td><strong>ContingenciarResponsividade</strong></td>
+      <td>Classe com funções de monitoramento de instabilidade no momento de lançamento da DANFE no Siga WebApp.</td>
+      <td>
+        <ul>
+          <li>Seus métodos são executados em paralelo às funções de lançamento.</li>
+          <li>Seu propósito é monitorar quando ocorrerá um deslize no percurso da automação no momento do lançamento,
+            procurando por erros pontuais.</li>
+          <li>Quando identificado um deslize, a automação dispara um gatilho que dá o comando para automação cancelar o lancamento
+            para reinicia-lo.</li>
+        </ul>
+      </td>
+      <td>Utilizado pelos módulos <strong>operadoresLancamento</strong> e <strong>acaoComum</strong> durante o lançamento.</td>
+    </tr>
+    <tr>
+      <td><strong>atuadorWeb</strong></td>
+      <td>Fornece funções para interação com paginas web, seja para abertura da pagina ou algumas manipulações específicas.</td>
+      <td>
+        <ul>
+          <li>Função de abertura do microsiga WebApp, além de ações como clicar ou esperar um elemento HTML passado.</li>
+        </ul>
+      </td>
+      <td>Utilizado pelas Mariquinhas para abertura do Microsiga WebApp.</td>
+    </tr>
   </tbody>
 </table>
 <br/>
