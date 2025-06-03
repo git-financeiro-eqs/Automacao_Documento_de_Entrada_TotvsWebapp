@@ -1,6 +1,6 @@
 import pyautogui as ptg
 import acaoComum
-from ContingenciarResponsividade import ContingenciaMonitor
+from contingenciarResponsividade import ContingenciaMonitor
 from pyperclip import paste
 from time import sleep
 import pyscreeze
