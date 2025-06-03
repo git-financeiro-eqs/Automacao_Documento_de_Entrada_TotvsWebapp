@@ -1,6 +1,7 @@
-# Automacao Agillitas WebApp
+# Automacao lançamento de DANFES WebApp
 Transposição da automação de lançamento das DANFES no sistema ERP, vulgo Tigrinho. Antes a automação era programada para uma aplicação Desktop, agora que o microsiga migrou para o Web, essa é a nova versão da automação compatível com o novo microsiga.
-  
+<br/>
+<br/>
   
 # **Automação de Lançamento de DANFEs no ERP TOTVS Microsiga**  
 <br/>
