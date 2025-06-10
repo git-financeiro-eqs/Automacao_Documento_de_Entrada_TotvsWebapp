@@ -1,1 +1,0 @@
-Imagens utilizadas na automação.
