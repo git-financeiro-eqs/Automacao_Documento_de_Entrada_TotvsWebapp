@@ -997,10 +997,8 @@ def tigrinho(empresa):
                 break
              
         ultima_tela = utils.encontrar_centro_imagem(r'src\Imagens\ReferenciaFinalizarLancamento.png')
-        while type(ultima_tela) == tuple:
-            ultima_tela = utils.encontrar_centro_imagem(r'src\Imagens\ReferenciaFinalizarLancamento.png')
-            if type(ultima_tela) == tuple:
-                ptg.press("enter", interval=2.5)
+        if type(ultima_tela) == tuple:
+            ptg.press("enter", interval=2.5)
        
         
         utils.checar_failsafe()
