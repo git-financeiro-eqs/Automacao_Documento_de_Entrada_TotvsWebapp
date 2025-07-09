@@ -20,7 +20,8 @@ class ContingenciaMonitor:
         imagens = [
             r'src\Imagens\ErroInesperado.png',
             r'src\Imagens\ErroInesperado2.png',
-            r'src\Imagens\ErroInesperado3.png'
+            r'src\Imagens\ErroInesperado3.png',
+            r'src\Imagens\ErroInesperado4.png'
         ]
         
         for imagem in imagens:
